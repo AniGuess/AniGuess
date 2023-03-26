@@ -1,6 +1,6 @@
 import { AuthChecker } from 'type-graphql';
 import { User } from '../db/entities/User';
-import { IContext } from '../interfaces/Context';
+import { IContext } from '../types/Context';
 
 export const AuthenticationChecker: AuthChecker<IContext> = async ({ context }) => {
   if (!context.req.session.userId) {

@@ -1,5 +1,5 @@
 import { MiddlewareFn } from 'type-graphql';
-import { IContext } from '../interfaces/Context';
+import { IContext } from '../types/Context';
 
 export const LogAccess: MiddlewareFn<IContext> = ({ context, info }, next) => {
   if (process.env.NODE_ENV === 'test') return next();

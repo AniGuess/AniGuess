@@ -10,7 +10,9 @@ export const createAppDataSource = () => {
     password: process.env.TYPEORM_PASSWORD,
     database: process.env.TYPEORM_DATABASE,
     entities: entities,
-    migrations: [`./{src,dist}/db/migrations/*.{ts,js}`],
+    migrations: [
+      `./${process.env.NODE_ENV === 'production' ? 'dist' : 'src'}/db/migrations/*.{ts,js}`
+    ],
     synchronize: false,
     logging: process.env.NODE_ENV === 'production' ? false : true
   });

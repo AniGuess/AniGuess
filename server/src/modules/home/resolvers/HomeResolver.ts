@@ -1,6 +1,6 @@
 import { Authorized, Ctx, Query, Resolver, UseMiddleware } from 'type-graphql';
 
-import { IContext } from '../../../interfaces/Context';
+import { IContext } from '../../../types/Context';
 import { LogAccess } from '../../../middlewares/LogAccess';
 import { ResolveTime } from '../../../middlewares/ResolveTime';
 import { User } from '../../../db/entities/User';

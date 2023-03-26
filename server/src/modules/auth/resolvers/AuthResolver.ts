@@ -4,7 +4,7 @@ import { compare } from 'bcrypt';
 import { LogAccess } from '../../../middlewares/LogAccess';
 import { ResolveTime } from '../../../middlewares/ResolveTime';
 import { User } from '../../../db/entities/User';
-import { IContext } from '../../../interfaces/Context';
+import { IContext } from '../../../types/Context';
 
 @Resolver()
 export class AuthResolver {

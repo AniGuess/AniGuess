@@ -8,7 +8,7 @@ import connectRedis from 'connect-redis';
 import session from 'express-session';
 import { createSchema } from './utils/createSchema';
 import { createAppDataSource } from './utils/createDataSource';
-import { IContext } from './interfaces/Context';
+import { IContext } from './types/Context';
 import { createAdmin } from './createAdmin';
 import { redisClient } from './redis';
 
