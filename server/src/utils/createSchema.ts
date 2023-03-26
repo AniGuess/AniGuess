@@ -17,13 +17,27 @@ const resolvers = [
 export const createSchema = async (): Promise<GraphQLSchema> => {
   return await buildSchema({
     resolvers: resolvers,
-    authChecker: AuthenticationChecker
+    authChecker: AuthenticationChecker,
+    validate: {
+      whitelist: true,
+      validationError: {
+        target: true,
+        value: false
+      }
+    }
   });
 };
 
 export const createTestSchema = async (): Promise<GraphQLSchema> => {
   return await buildSchema({
     resolvers: resolvers,
-    authChecker: AuthenticationChecker
+    authChecker: AuthenticationChecker,
+    validate: {
+      whitelist: true,
+      validationError: {
+        target: true,
+        value: false
+      }
+    }
   });
 };

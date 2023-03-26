@@ -8,5 +8,6 @@ export class LoginInput {
   username: string;
 
   @Field()
+  @IsNotEmpty()
   password: string;
 }

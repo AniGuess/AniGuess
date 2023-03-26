@@ -11,5 +11,5 @@
     "dist/**": true,
     "node_modules/**": true
   },
-  "cSpell.words": ["aniguess", "youtube"]
+  "cSpell.words": ["aniguess", "formik", "Formik", "youtube"]
 }
