@@ -8,7 +8,6 @@ import connectRedis from 'connect-redis';
 import session from 'express-session';
 import { createSchema } from './utils/createSchema';
 import { createAppDataSource } from './utils/createDataSource';
-import { IContext } from './types/Context';
 import { createAdmin } from './createAdmin';
 import { redisClient } from './redis';
 
@@ -26,19 +25,17 @@ const main = async () => {
 
   const RedisStore = connectRedis(session);
 
-  app.use(
-    cors({
-      credentials: true,
-      origin: (origin, callback) => {
-        const origins = String(process.env.CORS_ORIGIN).split(',');
-        if (!origin || origins.includes(String(origin))) {
-          callback(null, true);
-        } else {
-          callback(null, false);
-        }
-      }
-    })
-  );
+  const corsOptions: cors.CorsOptions = {
+    credentials: true,
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? process.env.FRONTEND_URL
+        : (origin, callback) => {
+            callback(null, origin);
+          }
+  };
+  app.use(cors(corsOptions));
+
   app.use(
     session({
       name: 'sid',
@@ -57,14 +54,14 @@ const main = async () => {
 
   const server = new ApolloServer({
     schema,
-    context: ({ req, res }: IContext) => ({ req, res }),
+    context: ({ req, res }) => ({ req, res }),
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
     introspection: true
   });
 
   await server.start();
 
-  server.applyMiddleware({ app, path: '/graphql' });
+  server.applyMiddleware({ app, path: '/graphql', cors: false });
 
   const PORT = process.env.PORT || 4000;
 
