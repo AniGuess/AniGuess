@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:14-alpine
+    container_name: aniguess_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./docker-volumes/pgdata:/var/lib/postgresql/data:delegated
+    env_file: server/.env
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - 6379:6379

@@ -1,0 +1,15 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "lib": ["ES2020"],
+    "target": "ES5",
+    "moduleResolution": "Node",
+    "outDir": "build/",
+    "sourceMap": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["build/", "node_modules/"],
+  "include": ["src/"]
+}
