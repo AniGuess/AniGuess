@@ -1,21 +1,20 @@
 import 'dotenv/config';
-import {
-  Client,
-  GatewayIntentBits,
-} from 'discord.js';
+import { registerEvents } from './utils';
+import events from './events';
+import { Client, GatewayIntentBits } from 'discord.js';
+
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent
-  ]
+    GatewayIntentBits.MessageContent,
+  ],
 });
 
-const token = process.env.TOKEN;
+registerEvents(client, events);
 
-console.log('Bot is starting...');
-client.on('ready', () => {
-  console.log('Bot is running!');
+client.login(process.env.TOKEN).catch((err) => {
+  console.error('[Login Error]', err)
+  process.exit(1)
 });
-
-client.login(token);
