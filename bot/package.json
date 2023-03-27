@@ -7,13 +7,16 @@
     "build": "rimraf build && tsc",
     "start": "ts-node src/index.ts",
     "start:dev": "nodemon src/index.ts",
-    "start:prod": "node build/index.js"
+    "start:prod": "node build/index.js",
+    "deploy": "cross-env IS_SCRIPT=true ts-node src/scripts/deploy",
+    "deploy-prod": "cross-env NODE_ENV=production npm run deploy"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.2.1",
+    "cross-env": "^7.0.3",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3"
   },
