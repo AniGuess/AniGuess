@@ -1,5 +1,8 @@
-import debug from './debug';
+import { Command } from '../types';
+import ping from './ping';
 
-export default [
-  debug,
+const commands: Command[] = [
+  ping,
 ];
+
+export default commands;

@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { command } from '../../utils';
+import { command } from '../utils';
 
 const meta = new SlashCommandBuilder()
   .setName('ping')
