@@ -8,7 +8,7 @@ const allCommandsMap = new Map<string, Command>(
 );
 
 export default event(Events.InteractionCreate, async (
-  { log, client },  
+  { log, client, player },  
   interaction,
 ) => {
   if (!interaction.isChatInputCommand()) return;
@@ -21,6 +21,7 @@ export default event(Events.InteractionCreate, async (
 
     await command.exec({
       client,
+      player,
       interaction,
       log(...args) {
         log(`[${command.meta.name}]`, ...args)

@@ -1,3 +1,4 @@
+import { Player } from 'discord-player';
 import {
   Awaitable,
   Client,
@@ -14,17 +15,18 @@ export type CommandMeta =
   | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
 
 export interface CommandProps {
-  interaction: ChatInputCommandInteraction
-  client: Client
-  log: LoggerFunction
+  interaction: ChatInputCommandInteraction;
+  client: Client;
+  player: Player;
+  log: LoggerFunction;
 }
 
 export interface Command {
-  meta: CommandMeta
-  exec: CommandExec
+  meta: CommandMeta;
+  exec: CommandExec;
 }
 
 export interface CommandCategory {
-  name: string
-  commands: Command[]
+  name: string;
+  commands: Command[];
 }
