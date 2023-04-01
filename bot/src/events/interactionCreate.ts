@@ -18,7 +18,7 @@ export default event(Events.InteractionCreate, async (
     const command = allCommandsMap.get(commandName);
 
     if (!command) throw new Error('Command not found...');
-
+    
     await command.exec({
       client,
       player,

@@ -1,6 +1,7 @@
 import { Track } from 'discord-player';
-import { SlashCommandBuilder } from 'discord.js';
+import { GuildMember, SlashCommandBuilder } from 'discord.js';
 import { openings } from '../models/opening';
+import { score, Score } from '../models/score';
 import { command } from '../utils';
 
 const meta = new SlashCommandBuilder()
@@ -22,7 +23,8 @@ export default command(meta, async ({ interaction, player }) =>{
                 thumbnail: opening.imageUrl,
                 duration: '03:00',
                 views: 150,
-            }
+                raw: opening.keywords,
+            },
         )),
         title: 'Title',
         description: 'Description',
@@ -38,5 +40,12 @@ export default command(meta, async ({ interaction, player }) =>{
     });
 
     player.play(member.voice.channel.id, playlist);
-    return interaction.reply("Game stared");
+    const users = Array.from(member.voice.channel.members).flat().filter((e) =>  e instanceof GuildMember).map((e) => (e as GuildMember).user).filter((e) => !e.bot);
+    score.splice(0);
+    score.push(...users.map((u) => new Score(u, 0)));
+    let scoreBoard = "Score Board:\n";
+    for(let i = 0; i < score.length; i++) {
+        scoreBoard += `${i+1} | Score: ${score[i].score} | ${score[i].user.username}#${score[i].user.discriminator}\n`;
+    }
+    return interaction.reply(`Game stared!\n${scoreBoard}`);
 });

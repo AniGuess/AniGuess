@@ -6,7 +6,7 @@ const meta = new SlashCommandBuilder()
   .setName('skip')
   .setDescription('Skip to next opening.');
 
-export default command(meta, async ({ interaction, client }) =>{
+export default command(meta, async ({ interaction }) =>{
     const queue = useQueue(interaction.guild!.id);
     if (!queue) {
         return interaction.reply({ content: 'I am **not** in a voice channel', ephemeral: true });
