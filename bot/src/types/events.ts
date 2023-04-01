@@ -1,5 +1,5 @@
 import { Player } from 'discord-player';
-import { ClientEvents, Awaitable, Client } from 'discord.js'
+import { ClientEvents, Awaitable, Client } from 'discord.js';
 
 type LoggerFunction = (...args: unknown[]) => void;
 
