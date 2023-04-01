@@ -1,4 +1,4 @@
-import { Track } from 'discord-player';
+import { Track, useQueue } from 'discord-player';
 import { GuildMember, SlashCommandBuilder } from 'discord.js';
 import { openings } from '../models/opening';
 import { score, Score } from '../models/score';
@@ -11,6 +11,11 @@ const meta = new SlashCommandBuilder()
 export default command(meta, async ({ interaction, player }) =>{
     const member = interaction.guild?.members.cache.get(interaction.member?.user.id ?? '');
     if (!member?.voice.channel) return interaction.reply("You need to be in a VC to use this command");
+
+    const queue = useQueue(interaction.guild!.id);
+    if (queue) {
+        return interaction.reply({ content: 'The game has already started', ephemeral: true });
+    }
 
     const playlist = await player.createPlaylist({
         tracks: openings.map((opening) => new Track(
@@ -25,7 +30,7 @@ export default command(meta, async ({ interaction, player }) =>{
                 views: 150,
                 raw: opening.keywords,
             },
-        )),
+        )).sort(() => Math.random() - .5),
         title: 'Title',
         description: 'Description',
         thumbnail: 'Thumbnail',

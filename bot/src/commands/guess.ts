@@ -29,6 +29,7 @@ export default command(meta, async ({ interaction }) =>{
     if(keywords.includes(anime)) {
         queue.node.skip();
         score.find((e) => e.user.id === interaction.user.id)!.score++;
+        score.sort((a, b) => a.score - b.score);
         let scoreBoard = "Score Board:\n";
         for(let i = 0; i < score.length; i++) {
             scoreBoard += `${i+1} | Score: ${score[i].score} | ${score[i].user.username}#${score[i].user.discriminator}\n`;
