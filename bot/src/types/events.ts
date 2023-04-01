@@ -1,3 +1,4 @@
+import { Player } from 'discord-player';
 import { ClientEvents, Awaitable, Client } from 'discord.js'
 
 type LoggerFunction = (...args: unknown[]) => void;
@@ -8,12 +9,13 @@ export type EventExec<T extends EventKeys> =
   (props: EventProps, ...args: ClientEvents[T]) => Awaitable<unknown>;
 
 export interface EventProps {
-  client: Client
-  log: LoggerFunction
+  client: Client;
+  player: Player;
+  log: LoggerFunction;
 }
 
 export interface Event<T extends EventKeys> {
-  id: T,
-  exec: EventExec<T>,
-  once: boolean,
+  id: T;
+  exec: EventExec<T>;
+  once: boolean;
 }
