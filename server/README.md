@@ -1,4 +1,4 @@
-# Ski Family Proxy
+# AniGuess Proxy
 
 This app is built using [TypeGraphQL](https://typegraphql.com/).
 

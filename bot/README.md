@@ -1,1 +1,1 @@
-# Toiki Discord Bot
+# AniGuess Discord Bot
