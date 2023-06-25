@@ -5,7 +5,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["jest", "node", "@types/jest"],
+    "types": ["node"],
     "target": "es2019",
     "sourceMap": true,
     "outDir": "./dist",
