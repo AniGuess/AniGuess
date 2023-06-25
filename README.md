@@ -2,7 +2,7 @@
 
 to spin up the backend you need to run the following commands:
 
-- in the root directory launch the database and redis containers: `docker-compose -f docker-compose.dev.yml`
+- in the root directory launch the database and redis containers: `docker-compose -f docker-compose.dev.yml up -d`
 - in the `server` directory run `yarn` and `yarn migration:up`
 - finally run `yarn start:dev`
 
