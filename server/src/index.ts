@@ -1,15 +1,17 @@
 import 'dotenv/config';
 import 'reflect-metadata';
-import { ApolloServer } from 'apollo-server-express';
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
-import Express from 'express';
+import { ApolloServer } from '@apollo/server';
+import express from 'express';
+import http from 'http';
 import cors from 'cors';
 import connectRedis from 'connect-redis';
 import session from 'express-session';
-import { createSchema } from './utils/createSchema';
-import { createAppDataSource } from './utils/createDataSource';
-import { createAdmin } from './createAdmin';
-import { redisClient } from './redis';
+import { createSchema } from './utils/createSchema.js';
+import { createAppDataSource } from './utils/createDataSource.js';
+import { createAdmin } from './createAdmin.js';
+import { redisClient } from './redis.js';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { expressMiddleware } from '@apollo/server/express4';
 
 const main = async () => {
   const dataSource = createAppDataSource();
@@ -19,9 +21,16 @@ const main = async () => {
     await createAdmin();
   }
 
-  const app = Express();
-
   const schema = await createSchema();
+
+  const app = express();
+  const httpServer = http.createServer(app);
+  const server = new ApolloServer({
+    schema,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    introspection: true
+  });
+  await server.start();
 
   const RedisStore = connectRedis(session);
 
@@ -52,22 +61,20 @@ const main = async () => {
     })
   );
 
-  const server = new ApolloServer({
-    schema,
-    context: ({ req, res }) => ({ req, res }),
-    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
-    introspection: true
-  });
-
-  await server.start();
-
-  server.applyMiddleware({ app, path: '/graphql', cors: false });
-
-  const PORT = process.env.PORT || 4000;
-
-  app.listen({ port: PORT }, () =>
-    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+  app.use(
+    '/graphql',
+    express.json(),
+    express.urlencoded({ extended: true }),
+    expressMiddleware(server, {
+      context: async ({ req, res }) => ({ req, res })
+    })
   );
+
+  const PORT = Number(process.env.PORT) || 4000;
+
+  await new Promise<void>(resolve => httpServer.listen({ port: PORT }, resolve));
+
+  console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
 };
 
 main();

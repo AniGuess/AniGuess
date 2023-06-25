@@ -1,15 +1,17 @@
 import { graphql, GraphQLSchema } from 'graphql';
+import { jest } from '@jest/globals';
 
-import { createTestSchema } from './createSchema';
+import { createTestSchema } from './createSchema.js';
+import { Maybe } from 'graphql/jsutils/Maybe.js';
 
 let schema: GraphQLSchema;
 
 interface Props {
   source: string;
-  variableValues?: {
+  variableValues?: Maybe<{
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
-  };
+  }>;
   userId?: number;
 }
 
@@ -23,12 +25,12 @@ export const gqlCall = async ({ source, variableValues, userId }: Props) => {
     variableValues,
     contextValue: {
       req: {
-        user: {
+        session: {
           userId
         }
       },
-      jwtPayload: {
-        userId
+      res: {
+        clearCookie: jest.fn()
       }
     }
   });

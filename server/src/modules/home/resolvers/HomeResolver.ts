@@ -1,9 +1,9 @@
 import { Authorized, Ctx, Query, Resolver, UseMiddleware } from 'type-graphql';
 
-import { IContext } from '../../../types/Context';
-import { LogAccess } from '../../../middlewares/LogAccess';
-import { ResolveTime } from '../../../middlewares/ResolveTime';
-import { User } from '../../../db/entities/User';
+import { IContext } from '../../../types/Context.js';
+import { LogAccess } from '../../../middlewares/LogAccess.js';
+import { ResolveTime } from '../../../middlewares/ResolveTime.js';
+import { User } from '../../../db/entities/User.js';
 
 @Resolver()
 export class HomeResolver {
@@ -11,6 +11,7 @@ export class HomeResolver {
   @Query(() => User, { nullable: true })
   @UseMiddleware(LogAccess, ResolveTime)
   async me(@Ctx() { req }: IContext): Promise<User | null> {
+    console.log(req.session.userId);
     if (!req.session.userId) {
       return null;
     }

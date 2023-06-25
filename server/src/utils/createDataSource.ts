@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { entities } from '../db';
+import { entities } from '../db/index.js';
 
 export const createAppDataSource = () => {
   return new DataSource({

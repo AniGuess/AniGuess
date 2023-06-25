@@ -1,2 +1,2 @@
-export { LogAccess } from './LogAccess';
-export { ResolveTime } from './ResolveTime';
+export { LogAccess } from './LogAccess.js';
+export { ResolveTime } from './ResolveTime.js';

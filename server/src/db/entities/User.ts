@@ -1,7 +1,7 @@
-import { BaseEntity, BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity } from 'typeorm';
 import { hash } from 'bcrypt';
 import { Field, ObjectType } from 'type-graphql';
-import { AbstractEntity } from './AbstractEntity';
+import { AbstractEntity } from './AbstractEntity.js';
 
 @ObjectType()
 @Entity('users')

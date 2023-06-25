@@ -1,6 +1,6 @@
-import { AbstractEntity } from '../db/entities/AbstractEntity';
-import { IPaginatedResponse } from '../types/PaginatedResponse';
-import { PaginationInput } from '../types/PaginationInput';
+import { AbstractEntity } from '../db/entities/AbstractEntity.js';
+import { IPaginatedResponse } from '../types/PaginatedResponse.js';
+import { PaginationInput } from '../types/PaginationInput.js';
 
 export const formatPagination = <T extends AbstractEntity>(
   results: T[],

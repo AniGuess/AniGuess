@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { Session, SessionData } from 'express-session';
-import { User } from '../db/entities/User';
+import { User } from '../db/entities/User.js';
 
 export interface IContext {
   req: Request & {

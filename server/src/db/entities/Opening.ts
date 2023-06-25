@@ -1,6 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
-import { AbstractEntity } from './AbstractEntity';
+import { AbstractEntity } from './AbstractEntity.js';
 
 @ObjectType()
 @Entity('openings')

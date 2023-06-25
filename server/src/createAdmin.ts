@@ -1,4 +1,4 @@
-import { User } from './db/entities/User';
+import { User } from './db/entities/User.js';
 
 export const createAdmin = async () => {
   const user = new User();

@@ -1,9 +1,9 @@
 import { GraphQLSchema } from 'graphql';
 import { buildSchema } from 'type-graphql';
-import { AuthenticationChecker } from '../helpers/AuthChecker';
-import { AuthResolver } from '../modules/auth/resolvers/AuthResolver';
-import { HomeResolver } from '../modules/home/resolvers/HomeResolver';
-import { OpeningResolver } from '../modules/opening/resolvers/OpeningResolver';
+import { AuthenticationChecker } from '../helpers/AuthChecker.js';
+import { AuthResolver } from '../modules/auth/resolvers/AuthResolver.js';
+import { HomeResolver } from '../modules/home/resolvers/HomeResolver.js';
+import { OpeningResolver } from '../modules/opening/resolvers/OpeningResolver.js';
 
 const resolvers = [
   // does not work for the moment being, so we're importing Resolvers manually
@@ -37,7 +37,8 @@ export const createTestSchema = async (): Promise<GraphQLSchema> => {
       validationError: {
         target: true,
         value: false
-      }
+      },
+      forbidUnknownValues: false
     }
   });
 };

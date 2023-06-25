@@ -1,5 +1,4 @@
-import { Type } from 'class-transformer';
-import { IsArray, IsNotEmpty, IsString, IsUrl, ValidateNested } from 'class-validator';
+import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
 import { Field, InputType } from 'type-graphql';
 
 @InputType()

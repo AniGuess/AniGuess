@@ -1,12 +1,12 @@
 import { Arg, Authorized, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
-import { LogAccess } from '../../../middlewares/LogAccess';
-import { ResolveTime } from '../../../middlewares/ResolveTime';
-import { AddOpeningInput } from '../types/AddOpeningInput';
-import { Opening } from '../../../db/entities/Opening';
-import { PaginationInput } from '../../../types/PaginationInput';
 import { MoreThan } from 'typeorm';
-import { formatPagination } from '../../../utils/formatPagination';
-import { GetOpeningsOutput } from '../types/GetOpeningsOutput';
+import { LogAccess } from '../../../middlewares/LogAccess.js';
+import { ResolveTime } from '../../../middlewares/ResolveTime.js';
+import { AddOpeningInput } from '../types/AddOpeningInput.js';
+import { Opening } from '../../../db/entities/Opening.js';
+import { PaginationInput } from '../../../types/PaginationInput.js';
+import { formatPagination } from '../../../utils/formatPagination.js';
+import { GetOpeningsOutput } from '../types/GetOpeningsOutput.js';
 
 @Resolver()
 export class OpeningResolver {

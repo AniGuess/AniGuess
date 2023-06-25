@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
-import { timestamp } from '../../utils/timestamp';
+import { timestamp } from '../../utils/timestamp.js';
 
 @ObjectType()
 export abstract class AbstractEntity extends BaseEntity {

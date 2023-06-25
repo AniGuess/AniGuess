@@ -1,10 +1,10 @@
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
-import { LoginInput } from '../types/LoginInput';
 import { compare } from 'bcrypt';
-import { LogAccess } from '../../../middlewares/LogAccess';
-import { ResolveTime } from '../../../middlewares/ResolveTime';
-import { User } from '../../../db/entities/User';
-import { IContext } from '../../../types/Context';
+import { LoginInput } from '../types/LoginInput.js';
+import { LogAccess } from '../../../middlewares/LogAccess.js';
+import { ResolveTime } from '../../../middlewares/ResolveTime.js';
+import { User } from '../../../db/entities/User.js';
+import { IContext } from '../../../types/Context.js';
 
 @Resolver()
 export class AuthResolver {
@@ -37,7 +37,7 @@ export class AuthResolver {
     return new Promise((resolve, reject) => {
       req.session.destroy(err => {
         if (err) {
-          console.log(err);
+          console.error(err);
           return reject(false);
         }
         res.clearCookie('sid');
