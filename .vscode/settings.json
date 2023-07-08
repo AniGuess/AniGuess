@@ -11,5 +11,6 @@
     "dist/**": true,
     "node_modules/**": true
   },
-  "cSpell.words": ["aniguess", "formik", "Formik", "youtube"]
+  "cSpell.words": ["aniguess", "formik", "Formik", "youtube"],
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint"
 }

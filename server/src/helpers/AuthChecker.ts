@@ -3,7 +3,6 @@ import { User } from '../db/entities/User.js';
 import { IContext } from '../types/Context.js';
 
 export const AuthenticationChecker: AuthChecker<IContext> = async ({ context }) => {
-  console.log(context.req.session);
   if (!context.req.session.userId) {
     return false;
   }

@@ -1,12 +1,8 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  createHttpLink,
-  InMemoryCache
-} from '@apollo/client';
+import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 
 const errorLink = onError(({ response }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (response) response.errors = null as any;
 });
 

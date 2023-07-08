@@ -13,7 +13,7 @@ export const useAuth = () => {
     if (
       !data?.me?.id &&
       !loading &&
-      routes.public.find((route) => route.path === location.pathname)
+      routes.public.find(route => route.path === location.pathname)
     ) {
       return navigate('/login');
     }
