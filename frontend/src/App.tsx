@@ -6,7 +6,7 @@ import { client } from './utils/apolloClient';
 
 export const App = () => {
   return (
-    <div className="App h-full">
+    <div className="App h-full bg-slate-100">
       <ApolloProvider client={client}>
         <Router>
           <AppRouter />

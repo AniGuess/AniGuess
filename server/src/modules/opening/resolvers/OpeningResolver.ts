@@ -24,7 +24,7 @@ export class OpeningResolver {
       order: {
         id: 'ASC'
       },
-      take: limit
+      take: limit + 1
     });
 
     return formatPagination(openings, { limit });

@@ -1,0 +1,13 @@
+query GetOpenings($data: PaginationInput) {
+  getOpenings(data: $data) {
+    hasMore
+    lastId
+    results {
+      id
+      title
+      imageUrl
+      youtubeUrl
+      keywords
+    }
+  }
+}

@@ -1,0 +1,9 @@
+mutation AddOpening($data: AddOpeningInput!) {
+  addOpening(data: $data) {
+    id
+    title
+    keywords
+    imageUrl
+    youtubeUrl
+  }
+}

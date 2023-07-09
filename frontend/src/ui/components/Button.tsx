@@ -1,18 +1,18 @@
 import cx from 'classnames';
 
-interface ButtonProps extends React.PropsWithChildren {
-  type: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  secondary?: boolean
 }
 
-export const Button = ({ type, onClick, children }: ButtonProps) => {
+export const Button = ({ children, className, secondary, ...props }: ButtonProps) => {
   return (
     <button
-      type={type}
-      onClick={onClick}
       className={cx(
-        'flex w-full justify-center rounded-md bg-[#F8B5AB] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#FACCC5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F8B5AB]'
+        className,
+        secondary ? 'text-[#F8B5AB] hover:text-white' : 'text-white bg-[#F8B5AB]',
+        'flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm hover:bg-[#FACCC5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F8B5AB]'
       )}
+      {...props}
     >
       {children}
     </button>

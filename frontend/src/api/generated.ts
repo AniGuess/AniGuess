@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
-
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -42,9 +41,11 @@ export type Mutation = {
   logout?: Maybe<Scalars['Boolean']>;
 };
 
+
 export type MutationAddOpeningArgs = {
   data: AddOpeningInput;
 };
+
 
 export type MutationLoginArgs = {
   data: LoginInput;
@@ -70,6 +71,7 @@ export type Query = {
   me?: Maybe<User>;
 };
 
+
 export type QueryGetOpeningsArgs = {
   data?: InputMaybe<PaginationInput>;
 };
@@ -80,34 +82,83 @@ export type User = {
   username: Scalars['String'];
 };
 
+export type AddOpeningMutationVariables = Exact<{
+  data: AddOpeningInput;
+}>;
+
+
+export type AddOpeningMutation = { __typename?: 'Mutation', addOpening: { __typename?: 'Opening', id: string, title: string, keywords: Array<string>, imageUrl: string, youtubeUrl: string } };
+
 export type LoginMutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
 }>;
 
-export type LoginMutation = {
-  __typename?: 'Mutation';
-  login?: { __typename?: 'User'; id: string } | null;
-};
 
-export type LogoutMutationVariables = Exact<{ [key: string]: never }>;
+export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'User', id: string } | null };
 
-export type LogoutMutation = { __typename?: 'Mutation'; logout?: boolean | null };
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
-export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
-export type MeQuery = {
-  __typename?: 'Query';
-  me?: { __typename?: 'User'; id: string; username: string } | null;
-};
+export type LogoutMutation = { __typename?: 'Mutation', logout?: boolean | null };
 
-export const LoginDocument = gql`
-  mutation Login($username: String!, $password: String!) {
-    login(data: { username: $username, password: $password }) {
-      id
-    }
+export type GetOpeningsQueryVariables = Exact<{
+  data?: InputMaybe<PaginationInput>;
+}>;
+
+
+export type GetOpeningsQuery = { __typename?: 'Query', getOpenings: { __typename?: 'GetOpeningsOutput', hasMore: boolean, lastId?: number | null, results: Array<{ __typename?: 'Opening', id: string, title: string, imageUrl: string, youtubeUrl: string, keywords: Array<string> }> } };
+
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, username: string } | null };
+
+
+export const AddOpeningDocument = gql`
+    mutation AddOpening($data: AddOpeningInput!) {
+  addOpening(data: $data) {
+    id
+    title
+    keywords
+    imageUrl
+    youtubeUrl
   }
-`;
+}
+    `;
+export type AddOpeningMutationFn = Apollo.MutationFunction<AddOpeningMutation, AddOpeningMutationVariables>;
+
+/**
+ * __useAddOpeningMutation__
+ *
+ * To run a mutation, you first call `useAddOpeningMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddOpeningMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addOpeningMutation, { data, loading, error }] = useAddOpeningMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useAddOpeningMutation(baseOptions?: Apollo.MutationHookOptions<AddOpeningMutation, AddOpeningMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddOpeningMutation, AddOpeningMutationVariables>(AddOpeningDocument, options);
+      }
+export type AddOpeningMutationHookResult = ReturnType<typeof useAddOpeningMutation>;
+export type AddOpeningMutationResult = Apollo.MutationResult<AddOpeningMutation>;
+export type AddOpeningMutationOptions = Apollo.BaseMutationOptions<AddOpeningMutation, AddOpeningMutationVariables>;
+export const LoginDocument = gql`
+    mutation Login($username: String!, $password: String!) {
+  login(data: {username: $username, password: $password}) {
+    id
+  }
+}
+    `;
 export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
@@ -128,23 +179,18 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  *   },
  * });
  */
-export function useLoginMutation(
-  baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
-}
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<
-  LoginMutation,
-  LoginMutationVariables
->;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const LogoutDocument = gql`
-  mutation Logout {
-    logout
-  }
-`;
+    mutation Logout {
+  logout
+}
+    `;
 export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
 
 /**
@@ -163,26 +209,64 @@ export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMut
  *   },
  * });
  */
-export function useLogoutMutation(
-  baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
-}
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+      }
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
-export type LogoutMutationOptions = Apollo.BaseMutationOptions<
-  LogoutMutation,
-  LogoutMutationVariables
->;
-export const MeDocument = gql`
-  query Me {
-    me {
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const GetOpeningsDocument = gql`
+    query GetOpenings($data: PaginationInput) {
+  getOpenings(data: $data) {
+    hasMore
+    lastId
+    results {
       id
-      username
+      title
+      imageUrl
+      youtubeUrl
+      keywords
     }
   }
-`;
+}
+    `;
+
+/**
+ * __useGetOpeningsQuery__
+ *
+ * To run a query within a React component, call `useGetOpeningsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOpeningsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOpeningsQuery({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useGetOpeningsQuery(baseOptions?: Apollo.QueryHookOptions<GetOpeningsQuery, GetOpeningsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOpeningsQuery, GetOpeningsQueryVariables>(GetOpeningsDocument, options);
+      }
+export function useGetOpeningsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOpeningsQuery, GetOpeningsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOpeningsQuery, GetOpeningsQueryVariables>(GetOpeningsDocument, options);
+        }
+export type GetOpeningsQueryHookResult = ReturnType<typeof useGetOpeningsQuery>;
+export type GetOpeningsLazyQueryHookResult = ReturnType<typeof useGetOpeningsLazyQuery>;
+export type GetOpeningsQueryResult = Apollo.QueryResult<GetOpeningsQuery, GetOpeningsQueryVariables>;
+export const MeDocument = gql`
+    query Me {
+  me {
+    id
+    username
+  }
+}
+    `;
 
 /**
  * __useMeQuery__
@@ -200,15 +284,13 @@ export const MeDocument = gql`
  * });
  */
 export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-}
-export function useMeLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+      }
+export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+        }
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;

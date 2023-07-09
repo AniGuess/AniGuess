@@ -2,6 +2,7 @@ import { Navigate } from 'react-router-dom';
 
 import { Home } from '../ui/pages/home';
 import { Login } from '../ui/pages/login';
+import { New } from '../ui/pages/new';
 
 interface Route {
   path: string;
@@ -24,6 +25,10 @@ export const routes: AppRoutes = {
     {
       path: '/home',
       element: <Home />
+    },
+    {
+      path: '/new',
+      element: <New />
     },
     {
       path: '*',
