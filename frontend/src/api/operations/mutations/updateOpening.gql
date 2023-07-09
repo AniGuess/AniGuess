@@ -1,0 +1,9 @@
+mutation UpdateOpening($data: UpdateOpeningInput!) {
+  updateOpening(data: $data) {
+    id
+    title
+    imageUrl
+    youtubeUrl
+    keywords
+  }
+}

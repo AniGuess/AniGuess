@@ -1,0 +1,9 @@
+query GetOpening($data: GetOpeningInput!) {
+  getOpening(data: $data) {
+    id
+    title
+    imageUrl
+    youtubeUrl
+    keywords
+  }
+}

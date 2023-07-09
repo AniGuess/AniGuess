@@ -1,0 +1,9 @@
+mutation DeleteOpening($data: GetOpeningInput!) {
+  deleteOpening(data: $data) {
+    id
+    title
+    imageUrl
+    youtubeUrl
+    keywords
+  }
+}

@@ -1,4 +1,4 @@
-import { HtmlHTMLAttributes, TextareaHTMLAttributes } from 'react';
+import { TextareaHTMLAttributes } from 'react';
 
 type Props = TextareaHTMLAttributes<HTMLTextAreaElement>;
 

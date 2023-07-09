@@ -1,12 +1,12 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { GetOpeningsDocument, MeDocument, useAddOpeningMutation } from '../../api/generated';
+import { GetOpeningsDocument, useAddOpeningMutation } from '../../api/generated';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Textarea } from '../components/Textarea';
-import { useNavigate } from 'react-router-dom';
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required(),
@@ -16,35 +16,35 @@ const validationSchema = Yup.object().shape({
 });
 
 export const New = () => {
-  const [addOpening] = useAddOpeningMutation()
+  const [addOpening] = useAddOpeningMutation();
   const [error, setError] = useState('');
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col justify-center items-center h-full">
       <h1 className="text-5xl mb-5 font-bold">Create a new opening</h1>
       <div className="flex flex-col items-center justify-center bg-white rounded-md p-10 min-w-[1000px]">
-      {error && (
-        <div className="flex justify-center mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-          <h3 className="text-red-500 text-lg">{error}</h3>
-        </div>
-      )}
+        {error && (
+          <div className="flex justify-center mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+            <h3 className="text-red-500 text-lg">{error}</h3>
+          </div>
+        )}
         <Formik
           initialValues={{ title: '', imageUrl: '', youtubeUrl: '', keywords: '' }}
           validationSchema={validationSchema}
-          onSubmit={async (data) => {
+          onSubmit={async data => {
             setError('');
             const response = await addOpening({
-              variables: { data: { ...data, keywords: data.keywords.split(',')} },
+              variables: { data: { ...data, keywords: data.keywords.split(',') } },
               awaitRefetchQueries: true,
               refetchQueries: [{ query: GetOpeningsDocument }]
-            })
+            });
             if (response.errors) {
               return setError('Something went wrong');
             } else if (!response.data?.addOpening) {
               return setError('Data incorrect, please check your input');
             }
-            navigate('/')
+            navigate('/');
           }}
         >
           {({ isSubmitting }) => (

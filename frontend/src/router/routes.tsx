@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
 
+import { Edit } from '../ui/pages/edit';
 import { Home } from '../ui/pages/home';
 import { Login } from '../ui/pages/login';
 import { New } from '../ui/pages/new';
@@ -29,6 +30,10 @@ export const routes: AppRoutes = {
     {
       path: '/new',
       element: <New />
+    },
+    {
+      path: '/edit/:id',
+      element: <Edit />
     },
     {
       path: '*',
