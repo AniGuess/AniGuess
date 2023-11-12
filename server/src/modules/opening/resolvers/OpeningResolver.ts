@@ -9,6 +9,7 @@ import { formatPagination } from '../../../utils/formatPagination.js';
 import { GetOpeningsOutput } from '../types/GetOpeningsOutput.js';
 import { GetOpeningInput } from '../types/GetOpeningInput.js';
 import { UpdateOpeningInput } from '../types/UpdateOpeningInput.js';
+import { GetRandomOpeningsInput } from '../../../types/GetRandomOpeningsInput.js';
 
 @Resolver()
 export class OpeningResolver {
@@ -33,6 +34,15 @@ export class OpeningResolver {
     return formatPagination(openings, { limit });
   }
 
+  @Query(() => [Opening])
+  @UseMiddleware(LogAccess, ResolveTime)
+  async getRandomOpenings(
+    @Arg('data', { nullable: true }) args?: GetRandomOpeningsInput
+  ): Promise<Opening[]> {
+    const limit = args?.limit ?? 10;
+    return await Opening.createQueryBuilder().orderBy('RANDOM()').take(limit).getMany();
+  }
+
   @Authorized()
   @Query(() => Opening, { nullable: true })
   @UseMiddleware(LogAccess, ResolveTime)
@@ -53,7 +63,7 @@ export class OpeningResolver {
     const opening = new Opening();
     opening.title = title;
     opening.imageUrl = imageUrl;
-    opening.keywords = keywords;
+    opening.keywords = keywords.map(keyword => keyword.trim().toLowerCase());
     opening.youtubeUrl = youtubeUrl;
 
     await opening.save();
@@ -75,7 +85,7 @@ export class OpeningResolver {
     if (opening) {
       opening.title = title;
       opening.imageUrl = imageUrl;
-      opening.keywords = keywords;
+      opening.keywords = keywords.map(keyword => keyword.trim().toLowerCase());
       opening.youtubeUrl = youtubeUrl;
       await opening.save();
     }

@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
+
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -47,21 +48,17 @@ export type Mutation = {
   updateOpening?: Maybe<Opening>;
 };
 
-
 export type MutationAddOpeningArgs = {
   data: AddOpeningInput;
 };
-
 
 export type MutationDeleteOpeningArgs = {
   data: GetOpeningInput;
 };
 
-
 export type MutationLoginArgs = {
   data: LoginInput;
 };
-
 
 export type MutationUpdateOpeningArgs = {
   data: UpdateOpeningInput;
@@ -88,11 +85,9 @@ export type Query = {
   me?: Maybe<User>;
 };
 
-
 export type QueryGetOpeningArgs = {
   data: GetOpeningInput;
 };
-
 
 export type QueryGetOpeningsArgs = {
   data?: InputMaybe<PaginationInput>;
@@ -116,68 +111,123 @@ export type AddOpeningMutationVariables = Exact<{
   data: AddOpeningInput;
 }>;
 
-
-export type AddOpeningMutation = { __typename?: 'Mutation', addOpening: { __typename?: 'Opening', id: string, title: string, keywords: Array<string>, imageUrl: string, youtubeUrl: string } };
+export type AddOpeningMutation = {
+  __typename?: 'Mutation';
+  addOpening: {
+    __typename?: 'Opening';
+    id: string;
+    title: string;
+    keywords: Array<string>;
+    imageUrl: string;
+    youtubeUrl: string;
+  };
+};
 
 export type DeleteOpeningMutationVariables = Exact<{
   data: GetOpeningInput;
 }>;
 
-
-export type DeleteOpeningMutation = { __typename?: 'Mutation', deleteOpening?: { __typename?: 'Opening', id: string, title: string, imageUrl: string, youtubeUrl: string, keywords: Array<string> } | null };
+export type DeleteOpeningMutation = {
+  __typename?: 'Mutation';
+  deleteOpening?: {
+    __typename?: 'Opening';
+    id: string;
+    title: string;
+    imageUrl: string;
+    youtubeUrl: string;
+    keywords: Array<string>;
+  } | null;
+};
 
 export type LoginMutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
 }>;
 
+export type LoginMutation = {
+  __typename?: 'Mutation';
+  login?: { __typename?: 'User'; id: string } | null;
+};
 
-export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'User', id: string } | null };
+export type LogoutMutationVariables = Exact<{ [key: string]: never }>;
 
-export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type LogoutMutation = { __typename?: 'Mutation', logout?: boolean | null };
+export type LogoutMutation = { __typename?: 'Mutation'; logout?: boolean | null };
 
 export type UpdateOpeningMutationVariables = Exact<{
   data: UpdateOpeningInput;
 }>;
 
-
-export type UpdateOpeningMutation = { __typename?: 'Mutation', updateOpening?: { __typename?: 'Opening', id: string, title: string, imageUrl: string, youtubeUrl: string, keywords: Array<string> } | null };
+export type UpdateOpeningMutation = {
+  __typename?: 'Mutation';
+  updateOpening?: {
+    __typename?: 'Opening';
+    id: string;
+    title: string;
+    imageUrl: string;
+    youtubeUrl: string;
+    keywords: Array<string>;
+  } | null;
+};
 
 export type GetOpeningQueryVariables = Exact<{
   data: GetOpeningInput;
 }>;
 
-
-export type GetOpeningQuery = { __typename?: 'Query', getOpening?: { __typename?: 'Opening', id: string, title: string, imageUrl: string, youtubeUrl: string, keywords: Array<string> } | null };
+export type GetOpeningQuery = {
+  __typename?: 'Query';
+  getOpening?: {
+    __typename?: 'Opening';
+    id: string;
+    title: string;
+    imageUrl: string;
+    youtubeUrl: string;
+    keywords: Array<string>;
+  } | null;
+};
 
 export type GetOpeningsQueryVariables = Exact<{
   data?: InputMaybe<PaginationInput>;
 }>;
 
+export type GetOpeningsQuery = {
+  __typename?: 'Query';
+  getOpenings: {
+    __typename?: 'GetOpeningsOutput';
+    hasMore: boolean;
+    lastId?: number | null;
+    results: Array<{
+      __typename?: 'Opening';
+      id: string;
+      title: string;
+      imageUrl: string;
+      youtubeUrl: string;
+      keywords: Array<string>;
+    }>;
+  };
+};
 
-export type GetOpeningsQuery = { __typename?: 'Query', getOpenings: { __typename?: 'GetOpeningsOutput', hasMore: boolean, lastId?: number | null, results: Array<{ __typename?: 'Opening', id: string, title: string, imageUrl: string, youtubeUrl: string, keywords: Array<string> }> } };
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, username: string } | null };
-
+export type MeQuery = {
+  __typename?: 'Query';
+  me?: { __typename?: 'User'; id: string; username: string } | null;
+};
 
 export const AddOpeningDocument = gql`
-    mutation AddOpening($data: AddOpeningInput!) {
-  addOpening(data: $data) {
-    id
-    title
-    keywords
-    imageUrl
-    youtubeUrl
+  mutation AddOpening($data: AddOpeningInput!) {
+    addOpening(data: $data) {
+      id
+      title
+      keywords
+      imageUrl
+      youtubeUrl
+    }
   }
-}
-    `;
-export type AddOpeningMutationFn = Apollo.MutationFunction<AddOpeningMutation, AddOpeningMutationVariables>;
+`;
+export type AddOpeningMutationFn = Apollo.MutationFunction<
+  AddOpeningMutation,
+  AddOpeningMutationVariables
+>;
 
 /**
  * __useAddOpeningMutation__
@@ -196,25 +246,36 @@ export type AddOpeningMutationFn = Apollo.MutationFunction<AddOpeningMutation, A
  *   },
  * });
  */
-export function useAddOpeningMutation(baseOptions?: Apollo.MutationHookOptions<AddOpeningMutation, AddOpeningMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddOpeningMutation, AddOpeningMutationVariables>(AddOpeningDocument, options);
-      }
+export function useAddOpeningMutation(
+  baseOptions?: Apollo.MutationHookOptions<AddOpeningMutation, AddOpeningMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<AddOpeningMutation, AddOpeningMutationVariables>(
+    AddOpeningDocument,
+    options
+  );
+}
 export type AddOpeningMutationHookResult = ReturnType<typeof useAddOpeningMutation>;
 export type AddOpeningMutationResult = Apollo.MutationResult<AddOpeningMutation>;
-export type AddOpeningMutationOptions = Apollo.BaseMutationOptions<AddOpeningMutation, AddOpeningMutationVariables>;
+export type AddOpeningMutationOptions = Apollo.BaseMutationOptions<
+  AddOpeningMutation,
+  AddOpeningMutationVariables
+>;
 export const DeleteOpeningDocument = gql`
-    mutation DeleteOpening($data: GetOpeningInput!) {
-  deleteOpening(data: $data) {
-    id
-    title
-    imageUrl
-    youtubeUrl
-    keywords
+  mutation DeleteOpening($data: GetOpeningInput!) {
+    deleteOpening(data: $data) {
+      id
+      title
+      imageUrl
+      youtubeUrl
+      keywords
+    }
   }
-}
-    `;
-export type DeleteOpeningMutationFn = Apollo.MutationFunction<DeleteOpeningMutation, DeleteOpeningMutationVariables>;
+`;
+export type DeleteOpeningMutationFn = Apollo.MutationFunction<
+  DeleteOpeningMutation,
+  DeleteOpeningMutationVariables
+>;
 
 /**
  * __useDeleteOpeningMutation__
@@ -233,20 +294,28 @@ export type DeleteOpeningMutationFn = Apollo.MutationFunction<DeleteOpeningMutat
  *   },
  * });
  */
-export function useDeleteOpeningMutation(baseOptions?: Apollo.MutationHookOptions<DeleteOpeningMutation, DeleteOpeningMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteOpeningMutation, DeleteOpeningMutationVariables>(DeleteOpeningDocument, options);
-      }
+export function useDeleteOpeningMutation(
+  baseOptions?: Apollo.MutationHookOptions<DeleteOpeningMutation, DeleteOpeningMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteOpeningMutation, DeleteOpeningMutationVariables>(
+    DeleteOpeningDocument,
+    options
+  );
+}
 export type DeleteOpeningMutationHookResult = ReturnType<typeof useDeleteOpeningMutation>;
 export type DeleteOpeningMutationResult = Apollo.MutationResult<DeleteOpeningMutation>;
-export type DeleteOpeningMutationOptions = Apollo.BaseMutationOptions<DeleteOpeningMutation, DeleteOpeningMutationVariables>;
+export type DeleteOpeningMutationOptions = Apollo.BaseMutationOptions<
+  DeleteOpeningMutation,
+  DeleteOpeningMutationVariables
+>;
 export const LoginDocument = gql`
-    mutation Login($username: String!, $password: String!) {
-  login(data: {username: $username, password: $password}) {
-    id
+  mutation Login($username: String!, $password: String!) {
+    login(data: { username: $username, password: $password }) {
+      id
+    }
   }
-}
-    `;
+`;
 export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
@@ -267,18 +336,23 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  *   },
  * });
  */
-export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
-      }
+export function useLoginMutation(
+  baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+}
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<
+  LoginMutation,
+  LoginMutationVariables
+>;
 export const LogoutDocument = gql`
-    mutation Logout {
-  logout
-}
-    `;
+  mutation Logout {
+    logout
+  }
+`;
 export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
 
 /**
@@ -297,25 +371,33 @@ export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMut
  *   },
  * });
  */
-export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
-      }
+export function useLogoutMutation(
+  baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+}
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
-export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<
+  LogoutMutation,
+  LogoutMutationVariables
+>;
 export const UpdateOpeningDocument = gql`
-    mutation UpdateOpening($data: UpdateOpeningInput!) {
-  updateOpening(data: $data) {
-    id
-    title
-    imageUrl
-    youtubeUrl
-    keywords
+  mutation UpdateOpening($data: UpdateOpeningInput!) {
+    updateOpening(data: $data) {
+      id
+      title
+      imageUrl
+      youtubeUrl
+      keywords
+    }
   }
-}
-    `;
-export type UpdateOpeningMutationFn = Apollo.MutationFunction<UpdateOpeningMutation, UpdateOpeningMutationVariables>;
+`;
+export type UpdateOpeningMutationFn = Apollo.MutationFunction<
+  UpdateOpeningMutation,
+  UpdateOpeningMutationVariables
+>;
 
 /**
  * __useUpdateOpeningMutation__
@@ -334,24 +416,32 @@ export type UpdateOpeningMutationFn = Apollo.MutationFunction<UpdateOpeningMutat
  *   },
  * });
  */
-export function useUpdateOpeningMutation(baseOptions?: Apollo.MutationHookOptions<UpdateOpeningMutation, UpdateOpeningMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateOpeningMutation, UpdateOpeningMutationVariables>(UpdateOpeningDocument, options);
-      }
+export function useUpdateOpeningMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateOpeningMutation, UpdateOpeningMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateOpeningMutation, UpdateOpeningMutationVariables>(
+    UpdateOpeningDocument,
+    options
+  );
+}
 export type UpdateOpeningMutationHookResult = ReturnType<typeof useUpdateOpeningMutation>;
 export type UpdateOpeningMutationResult = Apollo.MutationResult<UpdateOpeningMutation>;
-export type UpdateOpeningMutationOptions = Apollo.BaseMutationOptions<UpdateOpeningMutation, UpdateOpeningMutationVariables>;
+export type UpdateOpeningMutationOptions = Apollo.BaseMutationOptions<
+  UpdateOpeningMutation,
+  UpdateOpeningMutationVariables
+>;
 export const GetOpeningDocument = gql`
-    query GetOpening($data: GetOpeningInput!) {
-  getOpening(data: $data) {
-    id
-    title
-    imageUrl
-    youtubeUrl
-    keywords
+  query GetOpening($data: GetOpeningInput!) {
+    getOpening(data: $data) {
+      id
+      title
+      imageUrl
+      youtubeUrl
+      keywords
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useGetOpeningQuery__
@@ -369,32 +459,39 @@ export const GetOpeningDocument = gql`
  *   },
  * });
  */
-export function useGetOpeningQuery(baseOptions: Apollo.QueryHookOptions<GetOpeningQuery, GetOpeningQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetOpeningQuery, GetOpeningQueryVariables>(GetOpeningDocument, options);
-      }
-export function useGetOpeningLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOpeningQuery, GetOpeningQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetOpeningQuery, GetOpeningQueryVariables>(GetOpeningDocument, options);
-        }
+export function useGetOpeningQuery(
+  baseOptions: Apollo.QueryHookOptions<GetOpeningQuery, GetOpeningQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetOpeningQuery, GetOpeningQueryVariables>(GetOpeningDocument, options);
+}
+export function useGetOpeningLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetOpeningQuery, GetOpeningQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetOpeningQuery, GetOpeningQueryVariables>(
+    GetOpeningDocument,
+    options
+  );
+}
 export type GetOpeningQueryHookResult = ReturnType<typeof useGetOpeningQuery>;
 export type GetOpeningLazyQueryHookResult = ReturnType<typeof useGetOpeningLazyQuery>;
 export type GetOpeningQueryResult = Apollo.QueryResult<GetOpeningQuery, GetOpeningQueryVariables>;
 export const GetOpeningsDocument = gql`
-    query GetOpenings($data: PaginationInput) {
-  getOpenings(data: $data) {
-    hasMore
-    lastId
-    results {
-      id
-      title
-      imageUrl
-      youtubeUrl
-      keywords
+  query GetOpenings($data: PaginationInput) {
+    getOpenings(data: $data) {
+      hasMore
+      lastId
+      results {
+        id
+        title
+        imageUrl
+        youtubeUrl
+        keywords
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGetOpeningsQuery__
@@ -412,25 +509,35 @@ export const GetOpeningsDocument = gql`
  *   },
  * });
  */
-export function useGetOpeningsQuery(baseOptions?: Apollo.QueryHookOptions<GetOpeningsQuery, GetOpeningsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetOpeningsQuery, GetOpeningsQueryVariables>(GetOpeningsDocument, options);
-      }
-export function useGetOpeningsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOpeningsQuery, GetOpeningsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetOpeningsQuery, GetOpeningsQueryVariables>(GetOpeningsDocument, options);
-        }
+export function useGetOpeningsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetOpeningsQuery, GetOpeningsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetOpeningsQuery, GetOpeningsQueryVariables>(GetOpeningsDocument, options);
+}
+export function useGetOpeningsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetOpeningsQuery, GetOpeningsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetOpeningsQuery, GetOpeningsQueryVariables>(
+    GetOpeningsDocument,
+    options
+  );
+}
 export type GetOpeningsQueryHookResult = ReturnType<typeof useGetOpeningsQuery>;
 export type GetOpeningsLazyQueryHookResult = ReturnType<typeof useGetOpeningsLazyQuery>;
-export type GetOpeningsQueryResult = Apollo.QueryResult<GetOpeningsQuery, GetOpeningsQueryVariables>;
+export type GetOpeningsQueryResult = Apollo.QueryResult<
+  GetOpeningsQuery,
+  GetOpeningsQueryVariables
+>;
 export const MeDocument = gql`
-    query Me {
-  me {
-    id
-    username
+  query Me {
+    me {
+      id
+      username
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useMeQuery__
@@ -448,13 +555,15 @@ export const MeDocument = gql`
  * });
  */
 export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-      }
-export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
+export function useMeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
