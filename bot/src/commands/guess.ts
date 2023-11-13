@@ -1,6 +1,11 @@
 import { useQueue } from 'discord-player';
 import { SlashCommandBuilder } from 'discord.js';
 import { command } from '../utils';
+import { getScoreboardId } from '../utils/id';
+import { getVoiceChannelUsers } from '../utils/getVoiceChannelUsers';
+import { redisClient } from '../redis';
+import { formatScoreboard } from '../utils/formatScoreboard';
+import { Opening } from '../types/opening';
 
 const meta = new SlashCommandBuilder()
   .setName('guess')
@@ -15,6 +20,13 @@ const meta = new SlashCommandBuilder()
   );
 
 export default command(meta, async ({ interaction }) => {
+  const member = interaction.guild?.members.cache.get(
+    interaction.member?.user.id ?? ''
+  );
+  if (!member?.voice.channel) {
+    return interaction.reply('You need to be in a VC to use this command');
+  }
+
   const queue = useQueue(interaction.guild!.id);
   if (!queue) {
     return interaction.reply({
@@ -29,23 +41,34 @@ export default command(meta, async ({ interaction }) => {
     });
   }
 
-  console.log(queue.currentTrack.raw)
-
   const keywords = (
-    Object.values(queue.currentTrack.raw).filter((e) => e) as string[]
+    Object.values(
+      (queue.currentTrack.raw as unknown as Opening).keywords
+    ).filter((e) => e) as string[]
   ).map((e) => e.toLocaleLowerCase());
   const anime =
     interaction.options.getString('anime')?.toLocaleLowerCase() ?? '';
   if (keywords.includes(anime)) {
     queue.node.skip();
-    // score.find((e) => e.user.id === interaction.user.id)!.score++;
-    // score.sort((a, b) => a.score - b.score);
-    // let scoreBoard = formatScoreboard(score);
-    // return interaction.reply({
-    //   content: `Correct <@${interaction.user.id}>!\n${scoreBoard}`
-    // });
+    const users = getVoiceChannelUsers(member.voice.channel);
+    const cachedUserMap = await redisClient.hGetAll(
+      `scoreboard-${interaction.guild!.id}`
+    );
+    const missingUserMap = users
+      .filter((user) => !Object.keys(cachedUserMap).includes(user.id))
+      .reduce((acc, user) => {
+        acc[user.id] = 0;
+        return acc;
+      }, {} as Record<string, number>);
+    const newUserMap = {
+      ...cachedUserMap,
+      ...missingUserMap,
+      [member.user.id]: Number(cachedUserMap[member.user.id] ?? 0) + 1
+    };
+    redisClient.hSet(getScoreboardId(interaction.guild!.id), newUserMap);
+    let scoreboardText = formatScoreboard(newUserMap);
     return interaction.reply({
-      content: `Correct <@${interaction.user.id}>!`
+      content: `Correct <@${interaction.user.id}>!\n${scoreboardText}`
     });
   } else {
     return interaction.reply({

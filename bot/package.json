@@ -24,6 +24,7 @@
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "play-dl": "^1.9.7",
+    "redis": "^4.6.10",
     "soundcloud-scraper": "^5.0.3",
     "youtube-sr": "^4.3.4"
   },

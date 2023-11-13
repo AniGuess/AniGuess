@@ -2,6 +2,9 @@ import { Track, useQueue } from 'discord-player';
 import { GuildMember, SlashCommandBuilder } from 'discord.js';
 import { command } from '../utils';
 import { getOpenings } from '../api/getOpenings';
+import { redisClient } from '../redis';
+import { formatScoreboard } from '../utils/formatScoreboard';
+import { getPlaylistId, getScoreboardId } from '../utils/id';
 
 const meta = new SlashCommandBuilder()
   .setName('play')
@@ -49,19 +52,24 @@ export default command(meta, async ({ interaction, player }) => {
       name: 'N/A',
       url: 'N/A'
     },
-    id: `aniguess-${interaction.guild!.id}`,
+    id: getPlaylistId(interaction.guild!.id),
     url: 'N/A'
   });
 
   player.play(member.voice.channel.id, playlist);
-  // const users = Array.from(member.voice.channel.members)
-  //   .flat()
-  //   .filter((e) => e instanceof GuildMember)
-  //   .map((e) => (e as GuildMember).user)
-  //   .filter((e) => !e.bot);
-  // score.splice(0);
-  // score.push(...users.map((u) => new Score(u, 0)));
-  // let scoreBoard = formatScoreboard(score);
-  // return interaction.reply(`Game stared!\n${scoreBoard}`);
-  return interaction.reply(`Game stared!`);
+  const users = Array.from(member.voice.channel.members)
+    .flat()
+    .filter((e) => e instanceof GuildMember)
+    .map((e) => (e as GuildMember).user)
+    .filter((e) => !e.bot);
+
+  const userMap = users.reduce((acc, user) => {
+    acc[user.id] = 0;
+    return acc;
+  }, {} as Record<string, number>);
+
+  redisClient.hSet(getScoreboardId(interaction.guild!.id), userMap);
+
+  let scoreboardText = formatScoreboard(userMap);
+  return interaction.reply(`Game stared!\n${scoreboardText}`);
 });
